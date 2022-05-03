@@ -15,7 +15,6 @@ from dotenv import load_dotenv
 def aws_s3(bucket, output):
     """Scans S3 bucket for risks using BluBracket CLI.
     BluBracket will skip over objects that are unscannable.
-    Results are outputted to results.json.
     """
 
     try:

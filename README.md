@@ -6,18 +6,33 @@ to scan for secrets and other risks programmatically.
 
 ## Install with standalone executables
 
+For example, to download and run the latest BluBracket CLI on macOS, you could run:
+
+```
+curl https://static.blubracket.io/cli/latest/blubracket-macos -o blubracket
+chmod +x ./blubracket
+mv ./blubracket /usr/local/bin/
+```
+
 Use these direct links to download the executables:
 
 - macOS: https://static.blubracket.io/cli/latest/blubracket-macos
 - Linux: https://static.blubracket.io/cli/latest/blubracket-linux
 - Windows: https://static.blubracket.io/cli/latest/blubracket-win.exe
 
+## Install with NPM
+
+TODO
+
+
 # Recipes
+
+See `recipes` folder for all the available recipes
 
 ## AWS S3
 
 `recipes/aws_s3.py` demonstrates how to scan a S3 bucket.
 
-Sample invocation: `pipenv run python -u recipes/aws_s3.py my-bucket`
+Sample invocation: `pipenv run python recipes/aws_s3.py my-bucket`
 
-To see more options `pipenv run python -u recipes/aws_s3.py --help`
+To see more options `pipenv run python recipes/aws_s3.py --help`
