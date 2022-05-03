@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+click = "*"
+boto3 = "*"
+python-dotenv = "*"
+
+[dev-packages]
+pre-commit = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
+
+[requires]
+python_version = "3"
