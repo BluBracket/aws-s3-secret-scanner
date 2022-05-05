@@ -9,16 +9,16 @@ to scan for secrets and other risks programmatically.
 For example, to download and run the latest BluBracket CLI on macOS, you could run:
 
 ```
-curl https://static.blubracket.io/cli/latest/blubracket-macos -o blubracket
+curl https://static.blubracket.com/cli/latest/macos/blubracket -o blubracket
 chmod +x ./blubracket
 mv ./blubracket /usr/local/bin/
 ```
 
 Use these direct links to download the executables:
 
-- macOS: https://static.blubracket.io/cli/latest/blubracket-macos
-- Linux: https://static.blubracket.io/cli/latest/blubracket-linux
-- Windows: https://static.blubracket.io/cli/latest/blubracket-win.exe
+- macOS: https://static.blubracket.com/cli/latest/macos/blubracket
+- Linux: https://static.blubracket.com/cli/latest/linux/blubracket
+- Windows: https://static.blubracket.com/cli/latest/win/blubracket.exe
 
 ## Install with NPM
 
