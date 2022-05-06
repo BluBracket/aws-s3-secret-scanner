@@ -1,4 +1,4 @@
-.PHONY: lint reset fmt run start-services stop-services run-tests run-component run-server-for-tests
+.PHONY: lint fmt
 
 lint:
 	pipenv run flake8

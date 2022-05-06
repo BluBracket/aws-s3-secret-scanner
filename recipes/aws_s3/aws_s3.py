@@ -1,60 +1,66 @@
 import logging
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
 
 import boto3
 import click
-from dotenv import load_dotenv
+import dotenv
 
 
 @click.command()
 @click.argument('bucket')
-@click.option('--output', '-o', type=click.File("w"), help='Output file name to store found risks.')
-def aws_s3(bucket, output):
-    """Scans S3 bucket for risks using BluBracket CLI.
+@click.option(
+    '--output',
+    '-o',
+    type=click.File("w"),
+    default=sys.stdout,
+    help='Output file name to store found risks. Defaults to stdout',
+)
+def scan_aws_s3_bucket(bucket, output):
+    """
+    Scans S3 bucket for risks using BluBracket CLI.
     BluBracket will skip over objects that are unscannable.
     """
 
-    try:
-        _aws_s3(bucket, output)
-    except:
-        logging.exception('')
+    _scan_aws_s3_bucket(bucket, output)
 
 
-def _aws_s3(bucket, output):
-    load_dotenv()
-
-    if not output:
-        output = sys.stdout
+def _scan_aws_s3_bucket(bucket_name, out):
+    dotenv.load_dotenv()
 
     session = boto3.Session()
     s3 = session.resource('s3')
-    bucket = s3.Bucket(bucket)
 
-    for bucket_obj in bucket.objects.all():
+    for bucket_obj in s3.Bucket(bucket_name).objects.all():
         file_name = bucket_obj.key
         file_response = bucket_obj.get()
-        scan_file(file_name, file_response, output)
+        scan_file(file_name, file_response, out)
 
 
-def scan_file(file_name, file_response, output):
+def scan_file(file_name, file_response, out):
     """
-    scan_file scans a single file
-    :param file_name:
-    :param file_response:
-    :return:
+    Scans a single file
+    Args:
+        file_name:
+        file_response:
+        out:
+
+    Returns:
+
     """
+
     try:
-        _scan_file(file_name, file_response, output)
-    except:
-        logging.exception('')
+        _scan_file(file_name, file_response, out)
+    except Exception:
+        # for this recipe we just want to print the exception and continue scanning
+        logging.exception(f'Error while scanning {file_name}')
 
 
-def _scan_file(file_name, file_response, output):
-
-    # directory or empty file
+def _scan_file(file_name, file_response, out):
+    # skip a directory or an empty file
     if not file_response['ContentLength'] or 'application/x-directory' in file_response['ContentType']:
         click.echo(f'skipping {file_name}')
         return
@@ -94,9 +100,9 @@ def _scan_file(file_name, file_response, output):
                 # CLI will exit without reading the input data
                 # this will lead to BrokenPipeError in stdin.write(chunk)
                 # 'ignore' it as it is a real error
-                pass
+                click.echo(f'skipping {file_name}')
 
-            # note: CLI's scan-file command does not produce any output except on errors
+            # note: when `-o` option is specified, `scan-file` command does not produce any output except on errors
             # so it is OK to stream the whole file (input body) first, without consuming the output,
             # and to collect any possible output only later.
             # so, it is OK to call `communicate` here.
@@ -106,15 +112,14 @@ def _scan_file(file_name, file_response, output):
             if stdout:
                 raise Exception(stdout.decode('utf-8', 'replace'))
 
-        # now have the file output, read it and send to stdout for now
+        # now have the file output, send to the final output file
         with open(cli_output_file_path, 'r') as cli_output_file:
-            for line in cli_output_file.readlines():
-                output.write(line)
-                output.flush()
+            shutil.copyfileobj(cli_output_file, out)
+            out.flush()
 
     finally:
         os.remove(cli_output_file_path)
 
 
 if __name__ == '__main__':
-    aws_s3()
+    scan_aws_s3_bucket()
