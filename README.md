@@ -40,7 +40,8 @@ mv ./blubracket /usr/local/bin/
 
 ## Configuration
 
-This project uses Boto3 and supports all its configuration options to access AWS, 
+This project uses Boto3 and supports all its 
+[configuration options to access AWS](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#configuration), 
 including inheriting configuration settings from the AWS CLI.
 
 ## Usage
