@@ -38,6 +38,11 @@ chmod +x ./blubracket
 mv ./blubracket /usr/local/bin/
 ```
 
+## Configuration
+
+This project uses Boto3 and supports all its configuration options to access AWS, 
+including inheriting configuration settings from the AWS CLI.
+
 ## Usage
 
 ```
