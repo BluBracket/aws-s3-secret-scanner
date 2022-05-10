@@ -42,10 +42,10 @@ mv ./blubracket /usr/local/bin/
 
 ```
 pipenv sync 
-pipenv run python aws_s3_risk_scanner.py my-bucket
+pipenv run python aws_s3_secret_scanner.py my-bucket
 ```
 
-To see more options `pipenv run python aws_s3_risk_scanner.py --help`
+To see more options `pipenv run python aws_s3_secret_scanner.py --help`
 
 ## Modifying and contributing
 
