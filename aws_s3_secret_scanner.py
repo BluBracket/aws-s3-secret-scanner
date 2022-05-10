@@ -21,7 +21,7 @@ import dotenv
 )
 def scan_aws_s3_bucket(bucket, output):
     """
-    Scans S3 bucket for risks using BluBracket CLI.
+    Scans S3 bucket for secrets using BluBracket CLI.
     BluBracket will skip over objects that are unscannable.
     """
 
@@ -82,7 +82,7 @@ def _scan_file(file_name, file_response, out):
             # specify the file name as there will be no file on local file system
             "--filename",
             file_name,
-            # found risks will be stored in `cli_output_file_path`
+            # found secrets will be stored in `cli_output_file_path`
             "-o",
             cli_output_file_path,
         ]
