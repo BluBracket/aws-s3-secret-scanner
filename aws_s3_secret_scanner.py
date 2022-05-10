@@ -17,7 +17,7 @@ import dotenv
     '-o',
     type=click.File("w"),
     default=sys.stdout,
-    help='Output file name to store found risks. Defaults to stdout',
+    help='Output file name to store found secrets. Defaults to stdout',
 )
 def scan_aws_s3_bucket(bucket, output):
     """
